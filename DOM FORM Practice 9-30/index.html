@@ -1,0 +1,75 @@
+<html>
+  <head>
+<style>
+body {
+  font-family: verdana;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.on {
+  width: 10rem;
+  height: 10rem;
+  background-color: gold;
+  border-radius: 5rem;
+}
+
+</style>
+
+  </head>
+  <body>
+    <div id='lightContainer'></div>
+    <form>
+      <h1>Please Turn the Lights On</h1>
+      <label>On<input type='checkbox' name='checked_switch'/>
+      <div>
+        <label>On
+          <input type='radio' value='yes' name='radio_switch'/>
+        </label>
+        <label>Off
+          <input type='radio' value='no' name='radio_switch'/>
+        </label>
+      </div>
+      <div>
+        <select name='select_switch'>
+          <option value='no'>No</option>
+          <option value='yes'>Yes</option>
+        </select>
+      </div>
+    </form>
+  <script>
+    const lightContainer = document.querySelector('#lightContainer');
+    const checkBox = document.querySelector('input[name="checked_switch"]');
+    const radio = document.querySelector('input[name="radio_switch"]');
+    const select = document.querySelector('select');
+
+    checkBox.addEventListener('click', ()=> {
+      compute();
+      render();
+    });
+
+    radio.addEventListener('click', ()=> {
+      compute();
+      render();
+    });
+
+    select.addEventListener('change', ()=> {
+      compute();
+      render();
+    });
+
+    let lightOn = false;
+
+    const compute = ()=> {
+      lightOn = checkBox.checked && radio.value === 'yes' && select.value === 'yes';
+    };
+
+    const render = ()=> {
+      const html = `The Light is ${ lightOn ? 'On': 'Off'}<div ${lightOn ? 'class="on"': ''}></div>`;
+      lightContainer.innerHTML = html;
+    };
+    compute();
+    render();
+  </script>
+  </body>
+</html>

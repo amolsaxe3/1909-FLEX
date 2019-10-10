@@ -1,0 +1,110 @@
+.container {
+
+}
+
+body > div > div:nth-child(1) {
+    background-color: dodgerblue;
+    color: white;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem .5rem 0 .5rem;
+
+} 
+
+div > div > div:nth-child(1) {
+    font-size: 2rem;
+}
+
+body > div > div:nth-child(2) > div:nth-child(2) {
+    margin: 0 33% 0 33%;
+    border: solid 1px black;
+}
+.createUserSpan {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 1.5rem;
+    color: rgb(95, 93, 93);
+    margin: 20px;
+}
+.innerformelements {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 0.8rem;
+    color: rgb(95, 93, 93);
+    margin: 20px;
+    font-weight: bolder;
+}
+ul {
+    list-style: none;
+}
+.formclass1 {
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    font-family: sans-serif;
+    padding: 10px;  
+    border-radius: 5px;
+    width: 100vw - 40px;
+    /* border: solid 2px blueviolet; */
+}
+#one {
+    width: 50vw;
+    border: solid 2px gray;
+    border-radius: 6px;
+}
+input,select {
+    margin-left: 20px;
+}
+.bottomBoxes {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+}
+.insideBottomElements {
+    border-radius: 20px;
+    border: solid 1px black;
+    height: 100px;
+    width: calc(100%/3 - 2.65rem);
+    margin: 20px;
+}
+.long {
+    height: 150px;;
+}
+.submitButtons {
+    border-radius:0px;
+    height: 25px;
+    width: 60px;
+}
+.buttonDiv {
+    display: flex;
+    justify-content: center;
+}
+@media (max-width: 600px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    
+        /* width: 100vw;
+        height: 100vh; */
+    }
+    .main {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+        /* width: 100vw;
+        height: 100vh; */
+    }
+    .users {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: wrap;
+        align-items: center;
+        /* width: 100vw;
+        height: 100vh; */
+    }
+    }

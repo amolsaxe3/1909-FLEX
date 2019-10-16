@@ -1,10 +1,11 @@
 ## 1909-FSA-NY-WEB-PT
 
-(_Isn't that insane looking?_)
-
 ### Introduction
 
 This is your **class repo**. Anything and everything we do in class, outside of class, that we feel like sharing, linking, or just saving will go in this repo. That means that you can find _everything and anything relevant to class on here except for the workshops themselves (and even for those, we will have links._
+
+### Our Stretch Repo
+[**Can be found here!**](https://github.com/russellwmoore/1909-stretches/)
 
 ### A Table of Our Stuff
 
@@ -119,9 +120,26 @@ This is your **class repo**. Anything and everything we do in class, outside of 
             <ul>
                 <li>
                     <a href="https://learn.fullstackacademy.com/workshop/5a3839fedc3d510004d71ed5/content/5a3839fedc3d510004d71ee4/text">Workshop</a>
+                </li>
                 <li>
                     <a href="https://learn.fullstackacademy.com/workshop/5d9f661b87060e0004ada08b/content/5d9f66728efb3f00049fc8c9/text">Homework</a>
                 </li>
+                <li>
+                    <a href="https://www.youtube.com/watch?v=A_5NCjrx51k&list=PL0medk5vA90rk-XLRMdBnNrpij0AfE8Dv&index=9&t=0s">Review</a>
+                </li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td><b>10.14.19</b></td>
+        <td> Promises </td>
+        <td>
+            <ul>
+                <li>
+                    <a href="https://learn.fullstackacademy.com/workshop/5da3b0a71e7ef6000481f94b/content/5da3b1185c45170004927820/text">Workshop</a>
+                </li>
+                <li>
+                    <a href="https://youtu.be/6pKTA3eRzq4">Lecture</a>
                 </li>
             </ul>
         </td>

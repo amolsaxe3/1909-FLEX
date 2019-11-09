@@ -1,0 +1,84 @@
+<body>
+
+        <head>
+                <style>
+                h2,th {
+                  text-transform: capitalize;
+                }
+                </style>
+                <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+                <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js'></script>
+        </head>
+    <div class ='container'>
+        <h1>Acme w/ Bootstrap and Axios VJS</h1>
+        <ul class='nav nav-tabs'>
+            <li class= 'nav-item'>
+                <a class='nav-link' id='companiesLink' href="#companies">
+                    Companies
+                </a>
+            </li>
+            <li class= 'nav-item'>
+                    <a class='nav-link' id='productsLink' href="#products">
+                        Products
+                    </a>
+            </li>
+        </ul>
+        <h2 id='title'></h2>
+        <div id='results'>
+        </div>
+    </div>
+    <script>
+        const companiesLink =  document.querySelector('#companiesLink')
+        const productsLink =  document.querySelector('#productsLink')
+        const title = document.querySelector('#title')
+
+        const loadData =  async () => {
+            const urls = [
+            'https://acme-users-api-rev.herokuapp.com/api/companies',
+            'https://acme-users-api-rev.herokuapp.com/api/products'
+
+            ]
+
+            const responses =  await Promise.all (urls.map(url => axios.get(url)));
+            const [companies, products] = responses.map( response => response.data);
+            data = {
+                companies,
+                products
+            };
+            companiesLink.innerHTML = `Companies (${data.comapanies.lenght})`;
+            productsLink.innerHTML = `Products (${data.products.length})`;
+            render()
+        }
+
+        loadData();
+
+        const render = () => {
+            const pageName = window.location.hash.slice(1);
+            if(!pageName){
+                return window.location.hash = 'products';
+            }
+//WHAT IS BEING DONE BELOW???
+            const links = document.querySelectorAll('.nav-link');
+            links.forEach( link=> link.classList.remove('active'));
+            const link = document.querySelector(`#${pageName}Link`);
+            link.classList.add('active');
+            title.innerHTML = pageName;
+            const results = data[pageName];
+//BELOW I UNDERSTAND THAT RESULTS ARE BEING POPULATED
+            const container = document.querySelector('#results');
+            const header = Object.keys(results[0]);
+            let htmlHeader = header.map( key => `<th>${key}</th>`).join('');
+            htmlHeader = `<thead><tr>${htmlHeader}</tr></thead>`;
+            let htmlBody = results.map( result => {
+            return `<tr>${header.map( key => `<td>${ result[key]}</td>`).join('')}</tr>`
+            }).join('');
+            container.innerHTML = `<table class='table table-striped'>${htmlHeader}${htmlBody}</table>`;
+
+        }// emnd of render method
+
+        window.addEventListener('hashchange', ()=> {
+        render();
+        });
+
+    </script>
+</body>

@@ -1,0 +1,305 @@
+<html><head>
+        <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-router-dom/5.0.1/react-router-dom.js"></script>
+        <style>
+        *{
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+        }
+        nav{
+            display:flex;
+            flex-direction: row;
+            max-width:100%;
+            list-style: none;
+            justify-content: space-evenly;
+        }
+        ul > li {
+            list-style: none;
+            padding-top: 2em;
+            border-bottom:3px solid black;
+        }
+        ul > li > div{
+            padding: 0.25em 0;
+        }
+        h1{
+            margin-bottom:0
+        }
+        </style>
+        <body>
+            <div id="root"></div>
+        
+        <script type="text/babel">
+        const root = document.querySelector("#root")
+        const { Component } = React
+        const { render } = ReactDOM 
+        const { Link, HashRouter, Redirect, Switch, Route } = ReactRouterDOM  
+        const arr = [] 
+       
+        const Nav = () => {
+            const list = ['Home', 'Products']
+            return (
+                <nav>
+                    {
+                        list.map( (link,idx) => {
+                           return <li key={idx}><Link to={`/${link}`}>{link}</Link></li>
+                        })
+                    }
+                </nav>
+            )
+        }
+        const Products = ({companies,products,offering}) => {
+     
+            if(companies.length === 0 && offering.length === 0 && offering.length === 0){
+                return <div>Loading....</div>
+            }
+            let producted = products.map(product => {
+                return {
+                    ...product,
+                    averagePrice: (offering.filter( offers => offers.productId === product.id)
+                    .reduce((accum, offers) => {
+                            accum += offers.price
+                            return accum
+                    }, 0)/offering.filter( offers => offers.productId === product.id).length).toFixed(2),
+                    lowest: offering.filter( offers => offers.productId === product.id)
+                    .map( offering => {
+                        return {...offering, company: companies.find( company => company.id === offering.companyId) };
+                    })
+                    .reduce((accum, offers) => {
+                          accum.push({company: offers.company.name,price:offers.price})
+                          return accum
+                    },[]).sort( (a,b)=>{
+                        return a.price-b.price
+                    })[0]
+                    
+                }
+            })
+            return (
+                
+                <ul>
+                    <h1>Products</h1>
+                {
+                    producted.map((item, id)=>{
+                        return (
+                            <li key={id}>
+                            <div>{`Product: ${item.name}`}</div>
+                            <div>{`Suggested Price: ${item.suggestedPrice}`}</div>
+                            <div>{`Average Price: ${item.averagePrice}`}</div>
+                            <div>{`Lowest Price: ${item.lowest.price} offered by ${item.lowest.company}`}</div>
+                            </li>
+                        )
+                    })
+                }
+            </ul>
+                
+            )   
+        }
+        const HomeProduct = ({companies,products,offering}) => {
+            
+            if(companies.length === 0 && offering.length === 0 && offering.length === 0){
+                return <div>Loading....</div>
+            }
+            let producted = products.map(product => {
+                return {
+                    ...product,
+                    averagePrice: (offering.filter( offers => offers.productId === product.id)
+                    .reduce((accum, offers) => {
+                            accum += offers.price
+                            return accum
+                    }, 0)/offering.filter( offers => offers.productId === product.id).length).toFixed(2),
+                    lowest: offering.filter( offers => offers.productId === product.id)
+                    .map( offering => {
+                        return {...offering, company: companies.find( company => company.id === offering.companyId) };
+                    })
+                    .reduce((accum, offers) => {
+                        accum.push({company: offers.company.name,price:offers.price})
+                        return accum
+                    },[]).sort( (a,b)=>{
+                        return a.price-b.price
+                    })[0]
+                    
+                }
+            })
+            let sum = 0
+            let averageResult = producted.forEach((item, idx) => {
+                   sum += Number(item.averagePrice)
+                })
+            let average = (sum/producted.length).toFixed(2)
+            return (
+                
+                <ul>
+                    <h1>Home</h1>
+                <p>{`We have ${producted.length} products with an average price of ${average}`}</p>
+            </ul>
+            )
+        }
+        const API = 'https://acme-users-api-rev.herokuapp.com/api/'
+        class App extends Component{
+            constructor(){
+                super()
+                this.state = {
+                    companies: [],
+                    offerings: [],
+                    products: []
+                }
+            }
+            async componentDidMount(){
+                let companies = (await axios.get(`${API}companies`, )).data
+                let product = (await axios.get(`${API}products`, )).data
+                let offering = (await axios.get(`${API}offerings`, )).data
+                return this.setState({companies: companies, products:product, offerings:offering})
+            }
+            render(){
+                return (
+                    <HashRouter>
+                        <Route component={Nav}/>
+                            <Switch>
+                            <Route path="/Home" render = { () => <HomeProduct companies={this.state.companies} products={this.state.products} offering={this.state.offerings}/>}/>
+                            <Route path="/Products" render = { () => <Products companies={this.state.companies} products={this.state.products} offering={this.state.offerings}/>}/>
+                            <Redirect to="/Home"/>
+                            </Switch>
+                    </HashRouter>
+                )
+            }
+        }
+        render(<App />, root)
+        </script>
+    </body>
+    
+    <script type="text/babel">
+        const root = document.querySelector("#root")
+        const { Component } = React
+        const { render } = ReactDOM 
+        const { Link, HashRouter, Redirect, Switch, Route } = ReactRouterDOM  
+        const arr = [] 
+       
+        const Nav = () => {
+            const list = ['Home', 'Products']
+            return (
+                <nav>
+                    {
+                        list.map( (link,idx) => {
+                           return <li key={idx}><Link to={`/${link}`}>{link}</Link></li>
+                        })
+                    }
+                </nav>
+            )
+        }
+        const Products = ({companies,products,offering}) => {
+     
+            if(companies.length === 0 && offering.length === 0 && offering.length === 0){
+                return <div>Loading....</div>
+            }
+            let producted = products.map(product => {
+                return {
+                    ...product,
+                    averagePrice: (offering.filter( offers => offers.productId === product.id)
+                    .reduce((accum, offers) => {
+                            accum += offers.price
+                            return accum
+                    }, 0)/offering.filter( offers => offers.productId === product.id).length).toFixed(2),
+                    lowest: offering.filter( offers => offers.productId === product.id)
+                    .map( offering => {
+                        return {...offering, company: companies.find( company => company.id === offering.companyId) };
+                    })
+                    .reduce((accum, offers) => {
+                          accum.push({company: offers.company.name,price:offers.price})
+                          return accum
+                    },[]).sort( (a,b)=>{
+                        return a.price-b.price
+                    })[0]
+                    
+                }
+            })
+            return (
+                
+                <ul>
+                    <h1>Products</h1>
+                {
+                    producted.map((item, id)=>{
+                        return (
+                            <li key={id}>
+                            <div>{`Product: ${item.name}`}</div>
+                            <div>{`Suggested Price: ${item.suggestedPrice}`}</div>
+                            <div>{`Average Price: ${item.averagePrice}`}</div>
+                            <div>{`Lowest Price: ${item.lowest.price} offered by ${item.lowest.company}`}</div>
+                            </li>
+                        )
+                    })
+                }
+            </ul>
+                
+            )   
+        }
+        const HomeProduct = ({companies,products,offering}) => {
+            
+            if(companies.length === 0 && offering.length === 0 && offering.length === 0){
+                return <div>Loading....</div>
+            }
+            let producted = products.map(product => {
+                return {
+                    ...product,
+                    averagePrice: (offering.filter( offers => offers.productId === product.id)
+                    .reduce((accum, offers) => {
+                            accum += offers.price
+                            return accum
+                    }, 0)/offering.filter( offers => offers.productId === product.id).length).toFixed(2),
+                    lowest: offering.filter( offers => offers.productId === product.id)
+                    .map( offering => {
+                        return {...offering, company: companies.find( company => company.id === offering.companyId) };
+                    })
+                    .reduce((accum, offers) => {
+                        accum.push({company: offers.company.name,price:offers.price})
+                        return accum
+                    },[]).sort( (a,b)=>{
+                        return a.price-b.price
+                    })[0]
+                    
+                }
+            })
+            let sum = 0
+            let averageResult = producted.forEach((item, idx) => {
+                   sum += Number(item.averagePrice)
+                })
+            let average = (sum/producted.length).toFixed(2)
+            return (
+                
+                <ul>
+                    <h1>Home</h1>
+                <p>{`We have ${producted.length} products with an average price of ${average}`}</p>
+            </ul>
+            )
+        }
+        const API = 'https://acme-users-api-rev.herokuapp.com/api/'
+        class App extends Component{
+            constructor(){
+                super()
+                this.state = {
+                    companies: [],
+                    offerings: [],
+                    products: []
+                }
+            }
+            async componentDidMount(){
+                let companies = (await axios.get(`${API}companies`, )).data
+                let product = (await axios.get(`${API}products`, )).data
+                let offering = (await axios.get(`${API}offerings`, )).data
+                return this.setState({companies: companies, products:product, offerings:offering})
+            }
+            render(){
+                return (
+                    <HashRouter>
+                        <Route component={Nav}/>
+                            <Switch>
+                            <Route path="/Home" render = { () => <HomeProduct companies={this.state.companies} products={this.state.products} offering={this.state.offerings}/>}/>
+                            <Route path="/Products" render = { () => <Products companies={this.state.companies} products={this.state.products} offering={this.state.offerings}/>}/>
+                            <Redirect to="/Home"/>
+                            </Switch>
+                    </HashRouter>
+                )
+            }
+        }
+        render(<App />, root)
+        </script>
+    </body></html>

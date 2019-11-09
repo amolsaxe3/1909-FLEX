@@ -1,0 +1,41 @@
+<html>
+    <head>
+    <style>
+    /* .red {
+        border: solid 1px red;
+    }
+    .blue {
+        border: solid 1px blue;
+    }
+    .orange {
+        border: solid 1px orange;
+    } */
+    </style>
+    <!-- import axios using CDN -->
+    <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js'></script>
+    </head>
+    <body>
+        <div id='root'></div>
+        <script>
+            const root = document.querySelector('#root');
+
+            const App = () => {
+                const colors = ['red', 'yellow', 'pink', 'blue', 'green'];
+                const lis = colors.map(color => React.createElement(
+                    'li',
+                    {key: color, style: {color}},
+                    color
+                ));
+                const app = React.createElement('ul', null, lis);
+                return app;
+            }
+
+             ReactDOM.render(React.createElement(App),root);// second parameter in render is root, hence to get more elements in display you need to get teh app and create app element with React.createElement
+
+
+        </script>
+    </body>
+</html>
